@@ -33,7 +33,8 @@ while go != "q":
 	print(diceresultlist)
 	for eachside in range(1,dicesides+1):
 		dicerolltracker = diceresultlist.count(eachside)
-		print(eachside,"appeared",dicerolltracker,"times.","Percentage", round(100*(dicerolltracker/dicerolls),4))
+		#print(eachside,"appeared",dicerolltracker,"times.","Percentage", round(100*(dicerolltracker/dicerolls),4))
+		print(eachside,"appeared",dicerolltracker,"times.  Percentage "+ "%.3f" % (dicerolltracker/dicerolls))
 	go = input("Type 'y' to continue  or type 'q' to quit ")
 
 # #How to make sure the user enters a number (integer) - www.101computing.net
