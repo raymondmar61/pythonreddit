@@ -10,6 +10,7 @@
 #Give each move a name.
 
 from random import randint
+from time import sleep
 def smallrangedamage():
 	smallrangedamage = randint(18,26)
 	return smallrangedamage
@@ -19,6 +20,12 @@ def longrangedamage():
 def healdamage():
 	healdamage = randint(18,26)
 	return healdamage
+def timer():
+	seconds = 1
+	while seconds <= 3:
+		print(".")
+		sleep(1) #delay for 1 second
+		seconds += 1
 
 userhealth = 100
 computerhealth = 100
@@ -32,36 +39,66 @@ while userhealth > 0 and computerhealth > 0:
 	print("Round",counter)
 	print("User's health",userhealth)
 	print("Computer's health",computerhealth)
-	usermove = input("User small range attack (s), long range attack (l) or heal (h)?")
+	usermove = input("User small range attack (s), long range attack (l) or heal (h)? ")
 	if usermove == "s":
 		damage = smallrangedamage()
 		computerhealth = computerhealth - damage
+		if computerhealth <= 0:
+			print("Damage to computer", damage)
+			print("Computer's health is zero.  User wins!")
+			break
 		print("Damage to computer", damage)
 		print("Computer's health",computerhealth)
 	elif usermove == "l":
-		computerhealth = computerhealth - longrangedamage()
+		damage = longrangedamage()
+		computerhealth = computerhealth - damage
+		if computerhealth <= 0:
+			print("Damage to computer", damage)
+			print("Computer's health is zero.  User wins!")
+			break
+		print("Damage to computer", damage)
 		print("Computer's health",computerhealth)
 	elif usermove == "h":
-		userhealth = userhealth + healdamage()
-		print("User's health",userhealth)
-	if computerhealth <= 0:
-		print("User wins!")
-		break
-	computermovechoices = ["s","l","h"]
-	computermove = computermovechoices[randint(0,2)]
+		heal = healdamage()
+		userhealth = userhealth + heal
+		if userhealth > 100:
+			userhealth = 100
+			print("User's health is maxed", userhealth)
+		else:			
+			print("User's health increased",heal,"to",userhealth)
+	timer()
+	computermovechoices = ["s","l","h","h"]
+	if computerhealth > 0 and computerhealth <= 35:
+		computermove = computermovechoices[randint(0,3)]
+	else:
+		computermove = computermovechoices[randint(0,2)]
 	print("Computer chooses "+computermove)
 	if computermove == "s":
-		userhealth = userhealth - smallrangedamage()
+		damage = smallrangedamage()
+		userhealth = userhealth - damage
+		if userhealth <= 0:
+			print("Damage to user", damage)
+			print("User's health is zero.  Computer wins!")
+			break
+		print("Damage to user", damage)
 		print("User's health",userhealth)
 	elif computermove == "l":
-		userhealth = userhealth - longrangedamage()
+		damage = longrangedamage()
+		userhealth = userhealth - damage
+		if userhealth <= 0:
+			print("Damage to user", damage)
+			print("User's health is zero.  Computer wins!")
+			break
+		print("Damage to user", damage)
 		print("User's health",userhealth)
 	elif computermove == "h":
-		computerhealth = computerhealth + healdamage()
-		print("Computer's health",computerhealth)
-	if userhealth <= 0:
-		print("Computer wins!")
-		break
+		heal = healdamage()
+		computerhealth = computerhealth + heal
+		if computerhealth > 100:
+			computerhealth = 100
+			print("Computer's health is maxed", computerhealth)
+		else:
+			print("Computer's health increased",heal,"to",computerhealth)
 	counter += 1
 
 
