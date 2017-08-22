@@ -2,6 +2,7 @@
 #Make a program that accepts command line arguments for what time to go off, and when it does it should launch a Youtube video in your browser that will start playing.
 #The program should read in a text file that contains URLs to different Youtube videos and will randomly choose one and launch it. My command line args were in the form of --hour <hour> --minute <minute> --<pm/am> but you should do whatever you feel is easiest or most convenient for you.
 #source help:  https://pymotw.com/3/datetime/index.html, https://github.com/Pmogi/Alarm-Clock/blob/master/alarm.py
+#created word file Python datetime.docx on 08/21/17
 
 import webbrowser
 import datetime
@@ -62,7 +63,126 @@ print(t.hour) #print 23
 print(t.minute) #print 2
 print(t.second) #print 10
 
-#start timedeltas
+#timedeltas
+print('timedeltas microseconds:', datetime.timedelta(microseconds=1))
+print('timedeltas milliseconds:', datetime.timedelta(milliseconds=1))
+print('timedeltas seconds     :', datetime.timedelta(seconds=1))
+print('timedeltas minutes     :', datetime.timedelta(minutes=1))
+print('timedeltas hours       :', datetime.timedelta(hours=1))
+print('timedeltas days        :', datetime.timedelta(days=1))
+print('timedeltas weeks       :', datetime.timedelta(weeks=1))
+"""
+timedeltas microseconds: 0:00:00.000001
+timedeltas milliseconds: 0:00:00.001000
+timedeltas seconds     : 0:00:01
+timedeltas minutes     : 0:01:00
+timedeltas hours       : 1:00:00
+timedeltas days        : 1 day, 0:00:00
+timedeltas weeks       : 7 days, 0:00:00
+"""
+for delta in [datetime.timedelta(microseconds=1), datetime.timedelta(milliseconds=1), datetime.timedelta(seconds=1), datetime.timedelta(minutes=1), datetime.timedelta(hours=1), datetime.timedelta(days=1), datetime.timedelta(weeks=1)]:
+    print('{:15} = {:8} seconds'.format(str(delta), delta.total_seconds()))
+    """
+    0:00:00.000001  =    1e-06 seconds
+	0:00:00.001000  =    0.001 seconds
+	0:00:01         =      1.0 seconds
+	0:01:00         =     60.0 seconds
+	1:00:00         =   3600.0 seconds
+	1 day, 0:00:00  =  86400.0 seconds
+	7 days, 0:00:00 = 604800.0 seconds
+	"""
+print("\n")
+
+#date arithmetic
+today = datetime.date.today()
+print('Today    :', today)
+one_day = datetime.timedelta(days=1)
+print('One day  :', one_day)
+yesterday = today - one_day
+print('Yesterday:', yesterday)
+tomorrow = today + one_day
+print('Tomorrow :', tomorrow)
+print('tomorrow - yesterday:', tomorrow - yesterday)
+print('yesterday - tomorrow:', yesterday - tomorrow)
+"""
+Today    : 2017-08-21
+One day  : 1 day, 0:00:00
+Yesterday: 2017-08-20
+Tomorrow : 2017-08-22
+tomorrow - yesterday: 2 days, 0:00:00
+yesterday - tomorrow: -2 days, 0:00:00
+"""
+one_day = datetime.timedelta(days=1)
+print('One day  :', one_day)
+print('5 days   :', one_day * 5)
+print('1.5 days :', one_day * 1.5)
+print('1/4 day  :', one_day / 4)
+"""
+One day  : 1 day, 0:00:00
+5 days   : 5 days, 0:00:00
+1.5 days : 1 day, 12:00:00
+1/4 day  : 6:00:00
+"""
+work_day = datetime.timedelta(hours=7)
+meeting_length = datetime.timedelta(hours=1)
+print('meetings per day :', work_day / meeting_length) #print meetings per day : 7.0
+print("\n")
+
+#date and time values can be compared using the standard comparison operators to determine which is earlier or later
+print('Times:')
+t1 = datetime.time(12, 55, 0) #12:55:00
+print('  t1:', t1)
+t2 = datetime.time(13, 5, 0) #13:05:00
+print('  t2:', t2)
+print('  t1 < t2:', t1 < t2)
+print('Dates:')
+d1 = datetime.date.today()
+print('  d1:', d1)
+d2 = datetime.date.today() + datetime.timedelta(days=1)
+print('  d2:', d2)
+print('  d1 > d2:', d1 > d2)
+"""
+Times:
+  t1: 12:55:00
+  t2: 13:05:00
+  t1 < t2: True
+
+Dates:
+  d1: 2017-07-30
+  d2: 2017-07-31
+  d1 > d2: False
+"""
+print("\n")
+
+#Use the datetime class to hold values consisting of both date and time components
+print('Now    :', datetime.datetime.now())
+print('Today  :', datetime.datetime.today())
+print('UTC Now:', datetime.datetime.utcnow())
+"""
+Now    : 2017-08-21 14:57:18.140436
+Today  : 2017-08-21 14:57:18.140445
+UTC Now: 2017-08-21 21:57:18.140450
+"""
+FIELDS = ['year', 'month', 'day','hour', 'minute', 'second','microsecond']
+d = datetime.datetime.now()
+for attr in FIELDS:
+    print('{:15}: {}'.format(attr, getattr(d, attr)))
+"""
+year           : 2017
+month          : 8
+day            : 21
+hour           : 14
+minute         : 58
+second         : 38
+microsecond    : 968829
+"""
+print("month", datetime.datetime.now().month) #print month 8
+print("year", datetime.datetime.now().year) #print month 2017
+print("today is", datetime.datetime.now().month,"/",datetime.datetime.now().day) #print today is 8 / 21
+print("\n")
+
+#start Formatting and Parsing page 12 word file
+
 
 
 
