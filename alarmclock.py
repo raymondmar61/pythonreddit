@@ -3,6 +3,7 @@
 #The program should read in a text file that contains URLs to different Youtube videos and will randomly choose one and launch it. My command line args were in the form of --hour <hour> --minute <minute> --<pm/am> but you should do whatever you feel is easiest or most convenient for you.
 #source help:  https://pymotw.com/3/datetime/index.html, https://github.com/Pmogi/Alarm-Clock/blob/master/alarm.py
 #created word file Python datetime.docx on 08/21/17
+#Time module work with the clock time.  Calendar module work with dates.
 
 import webbrowser
 import datetime
@@ -182,9 +183,67 @@ print("today is", datetime.datetime.now().month,"/",datetime.datetime.now().day)
 print("\n")
 
 #start Formatting and Parsing page 12 word file
+#The default string representation of a datetime object uses the ISO-8601 format (YYYY-MM-DDTHH:MM:SS.mmmmmm). Alternate formats can be generated using strftime().
+today = datetime.datetime.today()
+print("default datetime today",today) #print default datetime today; 2017-08-23 12:47:32.981897
+format = "%a %b %d %H:%M:%S %Y"
+s = today.strftime(format)
+print("""strftime format %a %b %d %H:%M:%S %Y""",s) #print strftime format %a %b %d %H:%M:%S %Y Wed Aug 23 12:49:45 2017
+#Use datetime.strptime() to convert formatted strings to datetime instances.
+d = datetime.datetime.strptime(s, format)
+print('strptime:', d.strftime(format)) #print strptime: Wed Aug 23 12:50:54 2017
+print('ISO     :', today) #print ISO     : 2017-08-23 12:53:36.677435
+print('format(%a %b %d %H:%M:%S %Y): {:%a %b %d %H:%M:%S %Y}'.format(today)) #print format(%a %b %d %H:%M:%S %Y): Wed Aug 23 12:54:04 2017.  Each datetime format code must still be prefixed with %, and subsequent colons are treated as literal characters to include in the output.
+"""
+Formatting codes for 5:00 PM January 13, 2016 in the US/Eastern time zone.
+%a  Abbreviated weekday name:  'Wed'
+%A  Full weekday name: 'Wednesday'
+%w  Weekday number – 0 (Sunday) through 6 (Saturday):  '3'
+%d  Day of the month (zero padded):  '13'
+%b  Abbreviated month name:  'Jan'
+%B  Full month name: 'January'
+%m  Month of the year: '01'
+%y  Year without century:  '16'
+%Y  Year with century: '2016'
+%H  Hour from 24-hour clock: '17'
+%I  Hour from 12-hour clock: '05'
+%p  AM/PM: 'PM'
+%M  Minutes: '00'
+%S  Seconds: '00'
+%f  Microseconds:  '000000'
+%z  UTC offset for time zone-aware objects:  '-0500'
+%Z  Time Zone name:  'EST'
+%j  Day of the year: '013'
+%W  Week of the year:  '02'
+%c  Date and time representation for the current locale: 'Wed Jan 13 17:00:00 2016'
+%x  Date representation for the current locale:  '01/13/16'
+%X  Time representation for the current locale:  '17:00:00'
+%%  A literal % character: '%'
+"""
+format = "%a %b %d, %Y"
+mytoday = today.strftime(format)
+print("Today is",mytoday) #Today is Wed Aug 23, 2017
+print("\n")
 
+#timezones
+min6 = datetime.timezone(datetime.timedelta(hours=-6))
+plus6 = datetime.timezone(datetime.timedelta(hours=6))
+d = datetime.datetime.now(min6)
+print(min6, ':',d)
+print(datetime.timezone.utc, ':',d.astimezone(datetime.timezone.utc))
+print(plus6, ':',d.astimezone(plus6))
+# convert to the current system timezone
+d_system = d.astimezone()
+print(d_system.tzinfo, '      :', d_system)
+"""
+UTC-06:00 : 2017-08-23 14:06:36.166516-06:00
+UTC+00:00 : 2017-08-23 20:06:36.166516+00:00
+UTC+06:00 : 2017-08-24 02:06:36.166516+06:00
+PDT       : 2017-08-23 13:06:36.166516-07:00
+"""
+#The third party module pytz is a better implementation for time zones. It supports named time zones, and the offset database is kept up to date as changes are made by political bodies around the world.
 
-
+#Time module work with the clock time.  Calendar module work with dates.
 
 print('Earliest  :', datetime.time.min) #print Earliest  : 00:00:00
 print('Latest    :', datetime.time.max) #print Latest    : 23:59:59.999999
